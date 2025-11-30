@@ -1,4 +1,4 @@
-name: "Lesson 1 - Exercise 3"
+name: Lesson 1 - Exercise 3
 
 run-name: Run of the complex workflow
 
@@ -15,21 +15,30 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      -uses: actions/checkout@v4
-      -name: configure NodeJS version 18.* 
+      - uses: actions/checkout@v4
+
+      # Use the setup-node action to set up the Node.js environment
+      # Version 4 is the latest available version of the action
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # Run the node command to print our desired message
+      # We don't use '|' here because we only have one command to run
+      - name: Run a node command
+        run: node -e "console.log('running from node!')"
+
   # First job
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       # By default, the runner will use Bash on Linux/MacOS runners
       # Bash is supported on all runner types
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 18
-          name:  install and configure NodeJS 
-          run: node -e "console.log('running from node!')"
+      - name: Run a one-line script
+        run: echo Hello, world!
 
       - name: Run a multi-line script
         run: |
